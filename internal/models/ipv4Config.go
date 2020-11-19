@@ -1,9 +1,11 @@
 package models
 
 type IPv4Config struct {
-	VrfId *string
+	VrfId           *string
 	DestinationCIDR *string
-	NexthopId *string
-	IPv4TableId uint32
-	SetNexthopId uint32
+	NexthopId       *string
+	WcmpGroupId     *string
+	IPv4TableId     uint32
+	SetNexthopId    uint32
+	SetWcmpGroupId  uint32
 }
