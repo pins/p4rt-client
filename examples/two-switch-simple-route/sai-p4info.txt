@@ -1,0 +1,564 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 33554689
+    name: "ingress.acl_set_vrf.set_vrf_table"
+    alias: "set_vrf_table"
+    annotations: "@proto_package(\"sai\")"
+    annotations: "@sai_acl(PREINGRESS)"
+    annotations: "@entry_constraint(\"ether_type == 0x86DD\")"
+  }
+  match_fields {
+    id: 1
+    name: "ether_type"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_ETHER_TYPE)"
+    bitwidth: 16
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "ipv6_dst"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_DST_IPV6)"
+    annotations: "@format(IPV6_ADDRESS)"
+    bitwidth: 128
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 3
+    name: "dscp"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_DSCP)"
+    bitwidth: 6
+    match_type: TERNARY
+  }
+  action_refs {
+    id: 16777472
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 21257015
+  size: 256
+}
+tables {
+  preamble {
+    id: 33554496
+    name: "ingress.routing.neighbor_table"
+    alias: "neighbor_table"
+    annotations: "@proto_package(\"sai\")"
+  }
+  match_fields {
+    id: 1
+    name: "router_interface_id"
+    match_type: EXACT
+    type_name {
+      name: "router_interface_id_t"
+    }
+  }
+  match_fields {
+    id: 2
+    name: "neighbor_id"
+    match_type: EXACT
+    type_name {
+      name: "neighbor_id_t"
+    }
+  }
+  action_refs {
+    id: 16777217
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 21257015
+  size: 1024
+}
+tables {
+  preamble {
+    id: 33554497
+    name: "ingress.routing.router_interface_table"
+    alias: "router_interface_table"
+    annotations: "@proto_package(\"sai\")"
+  }
+  match_fields {
+    id: 1
+    name: "router_interface_id"
+    match_type: EXACT
+    type_name {
+      name: "router_interface_id_t"
+    }
+  }
+  action_refs {
+    id: 16777218
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 21257015
+  size: 1024
+}
+tables {
+  preamble {
+    id: 33554498
+    name: "ingress.routing.nexthop_table"
+    alias: "nexthop_table"
+    annotations: "@proto_package(\"sai\")"
+  }
+  match_fields {
+    id: 1
+    name: "nexthop_id"
+    match_type: EXACT
+    type_name {
+      name: "nexthop_id_t"
+    }
+  }
+  action_refs {
+    id: 16777219
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 21257015
+  size: 1024
+}
+tables {
+  preamble {
+    id: 33554499
+    name: "ingress.routing.wcmp_group_table"
+    alias: "wcmp_group_table"
+    annotations: "@proto_package(\"sai\")"
+    annotations: "@oneshot"
+    annotations: "@weight_proto_id(2)"
+  }
+  match_fields {
+    id: 1
+    name: "wcmp_group_id"
+    match_type: EXACT
+    type_name {
+      name: "wcmp_group_id_t"
+    }
+  }
+  action_refs {
+    id: 16777221
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 21257015
+  implementation_id: 299650760
+  size: 4096
+}
+tables {
+  preamble {
+    id: 33554500
+    name: "ingress.routing.ipv4_table"
+    alias: "ipv4_table"
+    annotations: "@proto_package(\"sai\")"
+  }
+  match_fields {
+    id: 1
+    name: "vrf_id"
+    match_type: EXACT
+    type_name {
+      name: "vrf_id_t"
+    }
+  }
+  match_fields {
+    id: 2
+    name: "ipv4_dst"
+    annotations: "@format(IPV4_ADDRESS)"
+    bitwidth: 32
+    match_type: LPM
+  }
+  action_refs {
+    id: 16777222
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 16777221
+    annotations: "@proto_id(2)"
+  }
+  action_refs {
+    id: 16777220
+    annotations: "@proto_id(3)"
+  }
+  const_default_action_id: 16777222
+  size: 1024
+}
+tables {
+  preamble {
+    id: 33554501
+    name: "ingress.routing.ipv6_table"
+    alias: "ipv6_table"
+    annotations: "@proto_package(\"sai\")"
+  }
+  match_fields {
+    id: 1
+    name: "vrf_id"
+    match_type: EXACT
+    type_name {
+      name: "vrf_id_t"
+    }
+  }
+  match_fields {
+    id: 2
+    name: "ipv6_dst"
+    annotations: "@format(IPV6_ADDRESS)"
+    bitwidth: 128
+    match_type: LPM
+  }
+  action_refs {
+    id: 16777222
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 16777221
+    annotations: "@proto_id(2)"
+  }
+  action_refs {
+    id: 16777220
+    annotations: "@proto_id(3)"
+  }
+  const_default_action_id: 16777222
+  size: 1024
+}
+tables {
+  preamble {
+    id: 33554688
+    name: "ingress.acl_punt.sai_punt_table"
+    alias: "sai_punt_table"
+    annotations: "@proto_package(\"sai\")"
+    annotations: "@sai_acl(INGRESS)"
+  }
+  match_fields {
+    id: 1
+    name: "ether_type"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_ETHER_TYPE)"
+    bitwidth: 16
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 2
+    name: "ether_dst"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_DST_MAC)"
+    annotations: "@format(MAC_ADDRESS)"
+    bitwidth: 48
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 3
+    name: "ipv6_dst"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_DST_IPV6)"
+    annotations: "@format(IPV6_ADDRESS)"
+    bitwidth: 128
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 4
+    name: "ipv6_next_header"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_IPV6_NEXT_HEADER)"
+    bitwidth: 8
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 5
+    name: "ttl"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_TTL)"
+    bitwidth: 8
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 6
+    name: "icmp_type"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_ICMP_TYPE)"
+    bitwidth: 8
+    match_type: TERNARY
+  }
+  match_fields {
+    id: 7
+    name: "l4_dst_port"
+    annotations: "@sai_field(SAI_ACL_ENTRY_ATTR_FIELD_L4_DST_PORT)"
+    bitwidth: 16
+    match_type: TERNARY
+  }
+  action_refs {
+    id: 16777473
+    annotations: "@proto_id(1)"
+  }
+  action_refs {
+    id: 16777474
+    annotations: "@proto_id(2)"
+  }
+  action_refs {
+    id: 21257015
+    annotations: "@defaultonly"
+    scope: DEFAULT_ONLY
+  }
+  const_default_action_id: 21257015
+  size: 128
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 16777472
+    name: "ingress.acl_set_vrf.set_vrf"
+    alias: "set_vrf"
+    annotations: "@sai_action(SAI_PACKET_ACTION_FORWARD)"
+  }
+  params {
+    id: 1
+    name: "vrf_id"
+    annotations: "@sai_action_param(SAI_ACL_ENTRY_ATTR_ACTION_SET_VRF)"
+    type_name {
+      name: "vrf_id_t"
+    }
+  }
+}
+actions {
+  preamble {
+    id: 16777217
+    name: "ingress.routing.set_dst_mac"
+    alias: "set_dst_mac"
+  }
+  params {
+    id: 1
+    name: "dst_mac"
+    annotations: "@format(MAC_ADDRESS)"
+    bitwidth: 48
+  }
+}
+actions {
+  preamble {
+    id: 16777218
+    name: "ingress.routing.set_port_and_src_mac"
+    alias: "set_port_and_src_mac"
+  }
+  params {
+    id: 1
+    name: "port"
+    bitwidth: 32
+    type_name {
+      name: "port_id_t"
+    }
+  }
+  params {
+    id: 2
+    name: "src_mac"
+    annotations: "@format(MAC_ADDRESS)"
+    bitwidth: 48
+  }
+}
+actions {
+  preamble {
+    id: 16777219
+    name: "ingress.routing.set_nexthop"
+    alias: "set_nexthop"
+  }
+  params {
+    id: 1
+    name: "router_interface_id"
+    type_name {
+      name: "router_interface_id_t"
+    }
+  }
+  params {
+    id: 2
+    name: "neighbor_id"
+    type_name {
+      name: "neighbor_id_t"
+    }
+  }
+}
+actions {
+  preamble {
+    id: 16777221
+    name: "ingress.routing.set_nexthop_id"
+    alias: "set_nexthop_id"
+  }
+  params {
+    id: 1
+    name: "nexthop_id"
+    type_name {
+      name: "nexthop_id_t"
+    }
+  }
+}
+actions {
+  preamble {
+    id: 16777222
+    name: "ingress.routing.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 16777220
+    name: "ingress.routing.set_wcmp_group_id"
+    alias: "set_wcmp_group_id"
+  }
+  params {
+    id: 1
+    name: "wcmp_group_id"
+    type_name {
+      name: "wcmp_group_id_t"
+    }
+  }
+}
+actions {
+  preamble {
+    id: 16777473
+    name: "ingress.acl_punt.copy"
+    alias: "copy"
+    annotations: "@sai_action(SAI_PACKET_ACTION_COPY)"
+  }
+}
+actions {
+  preamble {
+    id: 16777474
+    name: "ingress.acl_punt.trap"
+    alias: "trap"
+    annotations: "@sai_action(SAI_PACKET_ACTION_TRAP)"
+  }
+}
+action_profiles {
+  preamble {
+    id: 299650760
+    name: "ingress.routing.wcmp_group_selector"
+    alias: "wcmp_group_selector"
+  }
+  table_ids: 33554499
+  with_selector: true
+  size: 65536
+}
+controller_packet_metadata {
+  preamble {
+    id: 81826293
+    name: "packet_in"
+    alias: "packet_in"
+    annotations: "@controller_header(\"packet_in\")"
+  }
+  metadata {
+    id: 1
+    name: "ingress_port"
+    bitwidth: 32
+    type_name {
+      name: "port_id_t"
+    }
+  }
+  metadata {
+    id: 2
+    name: "target_egress_port"
+    bitwidth: 32
+    type_name {
+      name: "port_id_t"
+    }
+  }
+}
+controller_packet_metadata {
+  preamble {
+    id: 76689799
+    name: "packet_out"
+    alias: "packet_out"
+    annotations: "@controller_header(\"packet_out\")"
+  }
+  metadata {
+    id: 1
+    name: "egress_port"
+    bitwidth: 32
+    type_name {
+      name: "port_id_t"
+    }
+  }
+  metadata {
+    id: 2
+    name: "submit_to_ingress"
+    bitwidth: 1
+  }
+  metadata {
+    id: 3
+    name: "unused_pad"
+    bitwidth: 7
+  }
+}
+type_info {
+  new_types {
+    key: "neighbor_id_t"
+    value {
+      translated_type {
+        sdn_string {
+        }
+      }
+    }
+  }
+  new_types {
+    key: "nexthop_id_t"
+    value {
+      translated_type {
+        sdn_string {
+        }
+      }
+    }
+  }
+  new_types {
+    key: "port_id_t"
+    value {
+      translated_type {
+        sdn_bitwidth: 32
+      }
+    }
+  }
+  new_types {
+    key: "router_interface_id_t"
+    value {
+      translated_type {
+        sdn_string {
+        }
+      }
+    }
+  }
+  new_types {
+    key: "vrf_id_t"
+    value {
+      translated_type {
+        sdn_string {
+        }
+      }
+    }
+  }
+  new_types {
+    key: "wcmp_group_id_t"
+    value {
+      translated_type {
+        sdn_string {
+        }
+      }
+    }
+  }
+  new_types {
+      key: "qos_queue_t"
+      value { translated_type { sdn_string {} } }
+  }
+}
+
