@@ -4,18 +4,20 @@ import (
 	"context"
 	"crypto/md5"
 	"encoding/binary"
+	"encoding/json"
+	"fmt"
 	"github.com/golang/protobuf/proto"
 	p4config "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4 "github.com/p4lang/p4runtime/go/p4/v1"
+	"github.com/pins/p4rt-client/internal/logging"
 	"io/ioutil"
-	"log"
 )
 
-func PushP4Info(client *P4rtClient, p4infoFilename *string) error {
+func pushP4Info(client *P4rtClient, p4infoFilename *string) error {
 	p4info, err := loadP4Info(p4infoFilename)
 	if err != nil {
-		log.Printf("loadP4Info failed %v\n", err)
-		return err
+		message := fmt.Sprintf("loadP4Info failed %v\n", err)
+		logging.Error(&message)
 	}
 	deviceConfig := []byte{}
 	hash := md5.Sum(deviceConfig)
@@ -34,18 +36,30 @@ func PushP4Info(client *P4rtClient, p4infoFilename *string) error {
 		Action:     p4.SetForwardingPipelineConfigRequest_VERIFY_AND_COMMIT,
 		Config:     config,
 	}
+	if logging.GetDebug(){
+		js,_ := json.Marshal(req)
+		message:= fmt.Sprintf("Calling SetForwardingPipelineConfig with : %v",js)
+		logging.Debug(&message)
+	}
 	_, err = client.Client.SetForwardingPipelineConfig(context.Background(), req)
 	if err != nil {
-		log.Printf("SetForwardPipelineConfig failed with %v\n", err)
+		message := fmt.Sprintf("SetForwardPipelineConfig failed with %v\n", err)
+		logging.Error(&message)
 	}
 	return err
 }
 func loadP4Info(p4infoPath *string) (p4info p4config.P4Info, err error) {
-	log.Printf("P4 Info: %s\n", *p4infoPath)
+	message := fmt.Sprintf("P4 Info: %s\n", *p4infoPath)
+	logging.Info(&message)
 	p4infoBytes, err := ioutil.ReadFile(*p4infoPath)
 	if err != nil {
 		return
 	}
-	err = proto.UnmarshalText(string(p4infoBytes), &p4info)
+	p4content := string(p4infoBytes)
+	if logging.GetDebug(){
+		message := fmt.Sprintf("P4Info Contents %s",p4content)
+		logging.Debug(&message)
+	}
+	err = proto.UnmarshalText(p4content, &p4info)
 	return
 }

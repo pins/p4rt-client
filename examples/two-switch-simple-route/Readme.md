@@ -26,6 +26,10 @@ This contains the values to build the link from the Wedge switch to the server
 This contains the values to build the link from the Wedge switch to the Broadcom switch
  * ### buildAll.sh
 This orchestrates building the entire demo
+ * ### linkBatch.sh
+This provides a template to add a router interface, a neighbor entry, a nexthop entry and a CIDR router in a single invocation
+* ### buildAllBatch.sh
+When executed this will create the 4 links required to build the ONF simple routing demo using the linkBatch.sh method
  * ### Two switch simple routing.pdf
 This shows physical and logical topologies used in the demo
  * ### values.sh
@@ -37,7 +41,9 @@ This file contains blank entries for reference
  3. Add neighbor entry
  4. Add nexthop entry
  5. Add route
-
+## Steps to build a single link in a single invocation
+ 1. Push P4 info file (once per switch)
+ 2. call linkBatch.sh with a values file
 ## Notes
  1. These scripts assume that p4rt-client is built and is on the execution `PATH` 
  2. The version of P4Runtime running at ONF (this demo) assume the logical interface ID is 1 greater than that displayed by `show interfaces status` i.e. Ethernet0 = 1, Ethernet124 = 125
