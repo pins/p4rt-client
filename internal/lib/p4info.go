@@ -38,7 +38,7 @@ func pushP4Info(client *P4rtClient, p4infoFilename *string) error {
 	}
 	if logging.GetDebug(){
 		js,_ := json.Marshal(req)
-		message:= fmt.Sprintf("Calling SetForwardingPipelineConfig with : %v",js)
+		message:= fmt.Sprintf("Calling SetForwardingPipelineConfig with : %s",js)
 		logging.Debug(&message)
 	}
 	_, err = client.Client.SetForwardingPipelineConfig(context.Background(), req)
