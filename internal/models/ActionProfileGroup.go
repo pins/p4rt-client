@@ -5,6 +5,7 @@ type ActionProfileGroupMember struct {
 	Weight    int32
 	NexthopId *string
 	ProfileId uint32
+	SetNexthopId    uint32
 }
 type ActionProfileGroup struct {
 	ActionProfileId uint32

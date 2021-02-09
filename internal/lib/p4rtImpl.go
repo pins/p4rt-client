@@ -213,4 +213,16 @@ func AddIpV4WcmpEntry(serverAddressPort *string,vrf *string, dstNetwork *string,
 		p4client.writeRequest(updates)
 	}
 }
-
+func AddProfileMember(serverAddressPort *string,memberId *uint,
+	                  nexthopId *string, profileId *uint,setNexthopId *uint){
+	if becomeMaster(getP4Client(serverAddressPort)){
+		profileMember := &models.ActionProfileGroupMember{
+			MemberId: uint32(*memberId),
+			NexthopId: nexthopId,
+			ProfileId: uint32(*profileId),
+			SetNexthopId: uint32(*setNexthopId),
+		}
+		updates := tables.ActionGroupMemberCreate(profileMember)
+		p4client.writeRequest(updates)
+	}
+}

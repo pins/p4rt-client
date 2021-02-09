@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/md5"
 	"encoding/binary"
-	"encoding/json"
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	p4config "github.com/p4lang/p4runtime/go/p4/config/v1"
@@ -37,10 +36,12 @@ func pushP4Info(client *P4rtClient, p4infoFilename *string) error {
 		Config:     config,
 	}
 	if logging.GetDebug(){
-		js,_ := json.Marshal(req)
-		message:= fmt.Sprintf("Calling SetForwardingPipelineConfig with : %s",js)
+		//js,_ := json.Marshal(req)
+		message:= fmt.Sprintf("Calling SetForwardingPipelineConfig with : %s",req.String())
 		logging.Debug(&message)
+
 	}
+
 	_, err = client.Client.SetForwardingPipelineConfig(context.Background(), req)
 	if err != nil {
 		message := fmt.Sprintf("SetForwardPipelineConfig failed with %v\n", err)

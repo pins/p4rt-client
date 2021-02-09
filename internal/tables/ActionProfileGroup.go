@@ -56,3 +56,28 @@ func ActionProfileGroupInsert( group *models.ActionProfileGroup) []*p4.Update {
 	}
 	return updates
 }
+func ActionGroupMemberCreate(member *models.ActionProfileGroupMember)[]*p4.Update{
+	updates := []*p4.Update{
+		&p4.Update{
+			Entity: &p4.Entity{
+				Entity:&p4.Entity_ActionProfileMember{
+					ActionProfileMember: &p4.ActionProfileMember{
+						ActionProfileId: member.ProfileId,
+						MemberId: member.MemberId,
+						Action: &p4.Action{
+							ActionId: member.SetNexthopId,
+							Params: []*p4.Action_Param{
+								{
+									ParamId: 1,
+								    Value:   []byte(*member.NexthopId),
+								},
+							},
+
+						},
+					},
+				},
+			},
+		},
+	}
+	return updates
+}
