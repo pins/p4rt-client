@@ -3,7 +3,7 @@ set -x
 source $1
 source ../vals-p4.sh
 
-p4rt-client -addNeighbor \
+echo p4rt-client -addNeighbor \
       -server=$P4RUNTIME_ENDPOINT \
       -neighborIp=$NEIGHBOR_IP \
       -destMAC=$DEST_MAC \

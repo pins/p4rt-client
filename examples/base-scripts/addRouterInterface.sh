@@ -3,7 +3,7 @@ set -x
 source $1
 source ../vals-p4.sh
 
-p4rt-client  -addRouterInt \
+echo p4rt-client  -addRouterInt \
 	-server=$P4RUNTIME_ENDPOINT \
 	-routerTable=$ROUTER_TABLE \
 	-routerInterface=$INTERFACE_NAME \

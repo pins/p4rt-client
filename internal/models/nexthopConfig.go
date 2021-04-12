@@ -5,5 +5,5 @@ type NexthopConfig struct {
 	NexthopId         *string
 	SetNexthopId      uint32
 	RouterInterfaceId *string
-	NeighborIp        *string
+	NeighborName        *string
 }

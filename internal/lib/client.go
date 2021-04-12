@@ -104,9 +104,9 @@ func (client *P4rtClient)writeRequest(updates []*p4.Update)error{
 		Atomicity:  p4.WriteRequest_CONTINUE_ON_ERROR,
 	}
 	if logging.GetDebug(){
-		//js,_ := json.Marshal(writeRequest)
-		//message := fmt.Sprintf("client.Write being called with \n %v",js)
-		message := fmt.Sprintf("writeRequest called with %s ",writeRequest.String())
+		js,_ := json.Marshal(writeRequest)
+		message := fmt.Sprintf("client.Write being called with \n %v",js)
+		//message := fmt.Sprintf("writeRequest called with %s ",writeRequest.String())
 		logging.Debug(&message)
 	}
 	//TODO Currently response from Write call is "" if changes perhaps log

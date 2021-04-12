@@ -3,7 +3,7 @@ set -x
 source $1
 source ../vals-p4.sh
 
-p4rt-client -addNextHop \
+echo p4rt-client -addNextHop \
       -server=$P4RUNTIME_ENDPOINT  \
       -routerInterface=$INTERFACE_NAME \
       -neighborIp=`macToIpV6 $DEST_MAC` \

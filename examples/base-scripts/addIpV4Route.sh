@@ -3,7 +3,7 @@ set -x
 source $1
 source ../vals-p4.sh
 
-p4rt-client  -addIpV4 \
+echo p4rt-client  -addIpV4 \
       -server=$P4RUNTIME_ENDPOINT \
       -vrf=$VRF_ID \
       -routedNetwork=$ROUTED_NETWORK \

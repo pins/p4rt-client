@@ -33,16 +33,28 @@ func main() {
 			lib.PushP4infoUsage()
 		} else if *addRouterInt {
 			lib.AddRouterIntUsage()
+		}else if *delRouterInt {
+			lib.DelRouterIntUsage()
 		} else if *addNeighbor {
 			lib.AddNeighborUsage()
+		}else if *delNeighbor {
+			lib.DelNeighborUsage()
 		} else if *addNextHop {
 			lib.AddNextHopUsage()
+		}else if *delNextHop {
+			lib.DelNextHopUsage()
 		} else if *addIpV4Entry {
 			lib.AddIpV4EntryUsage()
+		}else if *delIpV4Entry {
+			lib.DelIpV4EntryUsage()
 		} else if *createActionProfile {
 			lib.CreateActionProfileUsage()
+		}else if *delActionProfile {
+			lib.DeleteActionProfileUsage()
 		} else if *addIpV4EntryWcmp {
 			lib.AddIpV4EntryWcmpUsage()
+		}else if *delIpV4EntryWcmp {
+			lib.DelIpV4EntryWcmpUsage()
 		} else if *advanced {
 			lib.ShowAdvancedUsage()
 		} else {
@@ -61,21 +73,42 @@ func main() {
 		lib.AddRouterIntEntry(serverAddressPort, routerInterfaceId, egressPort, routerIntPort, routerIntMAC, routerIntTableId, setMacPort)
 	}
 	if *addNeighbor {
-		lib.AddNeighborEntry(serverAddressPort, routerInterfaceId, neighborIp, destMAC, neighborTable, setDestMac)
+		lib.AddNeighborEntry(serverAddressPort, routerInterfaceId, neighborName, destMAC, neighborTable, setDestMac)
 	}
 	if *addNextHop {
-		lib.AddNextHopEntry(serverAddressPort, nextHopId, neighborIp, routerInterfaceId, nextHopTable, nextHopAction)
+		lib.AddNextHopEntry(serverAddressPort, nextHopId, neighborName, routerInterfaceId, nextHopTable, nextHopAction)
 	}
 	if *addIpV4Entry {
 		lib.AddIpV4TableEntry(serverAddressPort, vrfId, destNetwork, nextHopId, ipv4Table, setNextHopId)
 	}
 	if *createActionProfile {
-		lib.CreateActionProfileEntry(serverAddressPort, groupId, nextHops, actionProfileId, nextHopAction, )
+		lib.CreateActionProfileEntry(serverAddressPort, groupId, nextHops, actionProfileId, nextHopAction)
 	}
 	if *addIpV4EntryWcmp {
 		lib.AddIpV4WcmpEntry(serverAddressPort, vrfId, destNetwork, groupId, ipv4Table, setWcmpId)
 	}
 	if *addProfileMember {
 		lib.AddProfileMember(serverAddressPort, memberId, nextHopId, profileId, setNextHopId)
+	}
+	/*
+	In batched deletes the order of operations should be reverse
+	 */
+	if *delIpV4EntryWcmp {
+		lib.DelIpV4WcmpEntry(serverAddressPort, vrfId, destNetwork, groupId, ipv4Table, setWcmpId)
+	}
+	if *delActionProfile {
+		lib.DeleteActionProfileEntry(serverAddressPort, groupId, nextHops, actionProfileId, nextHopAction)
+	}
+	if *delIpV4Entry {
+		lib.DelIpV4TableEntry(serverAddressPort, vrfId, destNetwork, nextHopId, ipv4Table, setNextHopId)
+	}
+	if *delNextHop {
+		lib.DelNextHopEntry(serverAddressPort, nextHopId, neighborName, routerInterfaceId, nextHopTable, nextHopAction)
+	}
+	if *delNeighbor {
+		lib.DelNeighborEntry(serverAddressPort, routerInterfaceId, neighborName, destMAC, neighborTable, setDestMac)
+	}
+	if *delRouterInt {
+		lib.DeleteRouterIntEntry(serverAddressPort, routerInterfaceId, egressPort, routerIntPort, routerIntMAC, routerIntTableId, setMacPort)
 	}
 }

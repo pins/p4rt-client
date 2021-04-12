@@ -7,7 +7,7 @@ import (
 
 /*
 ActionProfileGroupInsert: used to generate the p4.Update struct to create a group of nexthops
- */
+*/
 func ActionProfileGroupInsert( group *models.ActionProfileGroup) []*p4.Update {
 	groupMembers := []*p4.ActionProfileAction{}
 	for i := 0; i < len(group.Members); i++ {
@@ -28,6 +28,57 @@ func ActionProfileGroupInsert( group *models.ActionProfileGroup) []*p4.Update {
 	updates := []*p4.Update{
 		&p4.Update{
 			Type: p4.Update_INSERT,
+			Entity: &p4.Entity{
+				Entity: &p4.Entity_TableEntry{
+					TableEntry: &p4.TableEntry{
+						TableId: group.ActionProfileId,
+						Match: []*p4.FieldMatch{
+							{
+								FieldId: 1,
+								FieldMatchType: &p4.FieldMatch_Exact_{
+									Exact: &p4.FieldMatch_Exact{
+										Value: []byte(*group.GroupId),
+									},
+								},
+							},
+						},
+						Action: &p4.TableAction{
+							Type: &p4.TableAction_ActionProfileActionSet{
+								ActionProfileActionSet: &p4.ActionProfileActionSet{
+									ActionProfileActions: groupMembers,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	return updates
+}
+/*
+ActionProfileGroupDelete: used to generate the p4.Update struct to create a group of nexthops
+ */
+func ActionProfileGroupDelete( group *models.ActionProfileGroup) []*p4.Update {
+	groupMembers := []*p4.ActionProfileAction{}
+	for i := 0; i < len(group.Members); i++ {
+		groupMember := &p4.ActionProfileAction{
+			Action: &p4.Action{
+				ActionId: group.SetNexthopId,
+				Params: []*p4.Action_Param{
+					{
+						ParamId: 1,
+						Value:   []byte(*group.Members[i].NexthopId),
+					},
+				},
+			},
+			Weight: group.Members[i].Weight,
+		}
+		groupMembers = append(groupMembers, groupMember)
+	}
+	updates := []*p4.Update{
+		&p4.Update{
+			Type: p4.Update_DELETE,
 			Entity: &p4.Entity{
 				Entity: &p4.Entity_TableEntry{
 					TableEntry: &p4.TableEntry{
