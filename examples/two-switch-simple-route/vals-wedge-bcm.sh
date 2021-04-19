@@ -1,3 +1,9 @@
+#
+# Copyright 2020-present Open Networking Foundation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#
 P4RUNTIME_ENDPOINT="10.70.2.1:9559"
 P4INFO_FILE="sai-p4info.txt"
 

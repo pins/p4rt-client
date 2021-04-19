@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020-present Open Networking Foundation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ */
 package models
 
 //func RounterTableInsert(outerInterfaceTableId uint32,routerIntId string,routerIntPortId uint32,routerInterMAC string,setMacAndPort uint32){

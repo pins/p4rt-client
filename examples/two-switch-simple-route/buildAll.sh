@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# Copyright 2020-present Open Networking Foundation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#
 set -x
 SCRIPT_DIR="../base-scripts"
 #only need to push p4info.txt once per switch

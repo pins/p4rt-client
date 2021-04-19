@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020-present Open Networking Foundation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ */
 package main
 
 import "flag"
@@ -8,6 +14,7 @@ var serverAddressPort = flag.String("server", "", "address and port of p4rt serv
 //#########################################
 var pushP4Info = flag.Bool("pushP4Info", false, "push P4Info text file to switch")
 var p4info = flag.String("p4info", "", "p4info text filename which describes p4 application")
+var version = flag.Bool("version",false,"show version of p4rt-client")
 
 //#########################################
 //Router Interface Table

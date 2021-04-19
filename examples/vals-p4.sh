@@ -1,4 +1,10 @@
 #The only time these values should need to change are when the p4info values change
+#
+# Copyright 2020-present Open Networking Foundation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#
 
 #P4INFO TABLES
 ROUTER_TABLE=33554497

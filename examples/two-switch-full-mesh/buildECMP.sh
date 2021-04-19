@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# Copyright 2020-present Open Networking Foundation
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#
 set -x
 VALS_FILE=`pwd`/$1
 SCRIPT_DIR="../base-scripts"

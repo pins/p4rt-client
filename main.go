@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020-present Open Networking Foundation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ */
 package main
 
 import (
@@ -11,6 +17,11 @@ import (
 
 func main() {
 	flag.Parse()
+	if *version{
+		message := fmt.Sprintf("p4rt-client version: %s target: %s ",p4rt_client_version,p4rt_client_summary)
+		logging.Info(&message)
+		return
+	}
 	if *debug {
 		logging.SetDebug(true)
 	}
@@ -70,7 +81,7 @@ func main() {
 		lib.AddIpV4TableEntry(serverAddressPort, vrfId, destNetwork, nextHopId, ipv4Table, setNextHopId)
 	}
 	if *createActionProfile {
-		lib.CreateActionProfileEntry(serverAddressPort, groupId, nextHops, actionProfileId, nextHopAction, )
+		lib.CreateActionProfileEntry(serverAddressPort, groupId, nextHops, actionProfileId, nextHopAction )
 	}
 	if *addIpV4EntryWcmp {
 		lib.AddIpV4WcmpEntry(serverAddressPort, vrfId, destNetwork, groupId, ipv4Table, setWcmpId)
