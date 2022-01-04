@@ -10,8 +10,8 @@
 ./p4rt-client -addNeighbor -server 10.70.2.3:9559 -neighborName="fe80::207:43ff:fe4b:7f50" -routerInterface="Ethernet16" -destMAC="00:07:43:4b:7f:50"
 
 ./p4rt-client -addNextHop -server 10.70.2.3:9559 -routerInterface="Ethernet0" -neighborName="fe80::207:43ff:fe4b:7f50" -nextHopId="mp1"
-./p4rt-client -addNextHop -server 10.70.2.3:9559 -routerInterface="Ethernet0" -neighborName="fe80::207:43ff:fe4b:7f50" -nextHopId="mp2"
-./p4rt-client -addNextHop -server 10.70.2.3:9559 -routerInterface="Ethernet0" -neighborName="fe80::207:43ff:fe4b:7f50" -nextHopId="mp3"
+./p4rt-client -addNextHop -server 10.70.2.3:9559 -routerInterface="Ethernet8" -neighborName="fe80::207:43ff:fe4b:7f50" -nextHopId="mp2"
+./p4rt-client -addNextHop -server 10.70.2.3:9559 -routerInterface="Ethernet16" -neighborName="fe80::207:43ff:fe4b:7f50" -nextHopId="mp3"
 
 nexthopList=mp1:100,mp2:105,mp3:110
 ./p4rt-client -server 10.70.2.3:9559 -addActionProfile -mpGroupId=group1  -nextHopWeights=$nexthopList 
