@@ -14,7 +14,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	p4config "github.com/p4lang/p4runtime/go/p4/config/v1"
 	p4 "github.com/p4lang/p4runtime/go/p4/v1"
-	"github.com/pins/p4rt-client/v2/internal/logging"
+	"github.com/pins/p4rt-client/v3/internal/logging"
 	"io/ioutil"
 )
 

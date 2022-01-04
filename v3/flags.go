@@ -38,10 +38,14 @@ var delNextHop = flag.Bool("delNextHop", false, "delete nexthop entry in nexthop
 var nextHopId = flag.String("nextHopId", "", "name to associate with next hop entry")
 //var neighborName = flag.String("neighborName", "", "internal name for neighbor")
 
+//add VRF
+var addVrf = flag.Bool("addVRF", false , "add VRF entry")
+//var vrfId = flag.String("vrf", "", "name of vrf to use")
+
 //IpV4Table
 var addIpV4Entry = flag.Bool("addIpV4", false, "add routing entry in ipv4_table")
 var delIpV4Entry = flag.Bool("delIpV4", false, "delete routing entry in ipv4_table")
-var vrfId = flag.String("vrf", "default", "name of vrf to use")
+var vrfId = flag.String("vrf", "", "name of vrf to use")
 var destNetwork = flag.String("routedNetwork", "", "CIDR of network to route e.g. 1.2.3.4/8")
 //nextHopId    = flag.String("nextHopId","","name to associate with next hop entry")
 
@@ -56,14 +60,14 @@ var groupId = flag.String("mpGroupId", "", "group id to use for MultiPath group"
 
 var addIpV4EntryWcmp = flag.Bool("addIpV4Wcmp", false, "create a routing entry with a wcmp path")
 var delIpV4EntryWcmp = flag.Bool("delIpV4Wcmp", false, "delete a routing entry with a wcmp path")
-//vrfId      = flag.String("vrf","default","name of vrf to use")
+//vrfId      = flag.String("vrf","","name of vrf to use")
 //destNetwork = flag.String("routedNetwork","","CIDR of network to route e.g. 1.2.3.4/8")
 //ipv4Table   = flag.Uint("ipv4table",0,"id associated with ingress.routing.ipv4_table from p4info.txt")
 //groupId = flag.String("mpGroupId","", "group id to use for MultiPath group")
 
 //AddProfileMember currently not supported in SONiC - p4 SAI limitation
 var addProfileMember = flag.Bool("addProfileMember",false,"add a \"member\" that can be assigned to a profile group")
-var memberId  = flag.Uint("memberId",0,"unique member id ")
+var memberId  = flag.Uint("memberId", 0, "unique member id ")
 //var nextHopId = flag.String("nextHopId", "", "name to associate with next hop entry")
 var profileId = flag.Uint("profileId",299650760,"ingress.routing.wcmp_group_selector")
 //var setNexthopId = flag.Uint()

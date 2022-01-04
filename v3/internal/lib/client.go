@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	p4 "github.com/p4lang/p4runtime/go/p4/v1"
-	"github.com/pins/p4rt-client/v2/internal/logging"
+	"github.com/pins/p4rt-client/v3/internal/logging"
 	"golang.org/x/net/context"
 	"google.golang.org/genproto/googleapis/rpc/code"
 	"google.golang.org/grpc"

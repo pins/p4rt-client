@@ -9,14 +9,17 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/pins/p4rt-client/v2/internal/lib"
-	"github.com/pins/p4rt-client/v2/internal/logging"
+	"github.com/pins/p4rt-client/v3/internal/lib"
+	"github.com/pins/p4rt-client/v3/internal/logging"
 )
 
 
 
 func main() {
 	flag.Parse()
+        if flag.NFlag() == 0{
+          *help = true
+        }
 	if *version{
 		message := fmt.Sprintf("p4rt-client version: %s target: %s ",p4rt_client_version,p4rt_client_summary)
 		logging.Info(&message)
@@ -54,18 +57,16 @@ func main() {
 			lib.AddNextHopUsage()
 		}else if *delNextHop {
 			lib.DelNextHopUsage()
-		} else if *addIpV4Entry {
+		}else if *addIpV4Entry {
 			lib.AddIpV4EntryUsage()
 		}else if *delIpV4Entry {
 			lib.DelIpV4EntryUsage()
-		} else if *createActionProfile {
+		}else if *createActionProfile {
 			lib.CreateActionProfileUsage()
 		}else if *delActionProfile {
 			lib.DeleteActionProfileUsage()
-		} else if *addIpV4EntryWcmp {
+		}else if *addIpV4EntryWcmp {
 			lib.AddIpV4EntryWcmpUsage()
-		}else if *delIpV4EntryWcmp {
-			lib.DelIpV4EntryWcmpUsage()
 		} else if *advanced {
 			lib.ShowAdvancedUsage()
 		} else {
@@ -89,6 +90,9 @@ func main() {
 	if *addNextHop {
 		lib.AddNextHopEntry(serverAddressPort, nextHopId, neighborName, routerInterfaceId, nextHopTable, nextHopAction)
 	}
+        if *addVrf {
+                lib.AddVRF(serverAddressPort, vrfId, vrfTable, addVrfAction)
+        }
 	if *addIpV4Entry {
 		lib.AddIpV4TableEntry(serverAddressPort, vrfId, destNetwork, nextHopId, ipv4Table, setNextHopId)
 	}
@@ -104,22 +108,19 @@ func main() {
 	/*
 	In batched deletes the order of operations should be reverse
 	 */
-	if *delIpV4EntryWcmp {
-		lib.DelIpV4WcmpEntry(serverAddressPort, vrfId, destNetwork, groupId, ipv4Table, setWcmpId)
-	}
 	if *delActionProfile {
-		lib.DeleteActionProfileEntry(serverAddressPort, groupId, nextHops, actionProfileId, setNextHopId)
+		lib.DeleteActionProfileEntry(serverAddressPort, groupId, actionProfileId)
 	}
 	if *delIpV4Entry {
-		lib.DelIpV4TableEntry(serverAddressPort, vrfId, destNetwork, nextHopId, ipv4Table, setNextHopId)
+		lib.DelIpV4TableEntry(serverAddressPort, vrfId, destNetwork, ipv4Table)
 	}
 	if *delNextHop {
-		lib.DelNextHopEntry(serverAddressPort, nextHopId, neighborName, routerInterfaceId, nextHopTable, nextHopAction)
+		lib.DelNextHopEntry(serverAddressPort, nextHopId, nextHopTable)
 	}
 	if *delNeighbor {
-		lib.DelNeighborEntry(serverAddressPort, routerInterfaceId, neighborName, destMAC, neighborTable, setDestMac)
+		lib.DelNeighborEntry(serverAddressPort, routerInterfaceId, neighborName, neighborTable )
 	}
 	if *delRouterInt {
-		lib.DeleteRouterIntEntry(serverAddressPort, routerInterfaceId, egressPort, routerIntPort, routerIntMAC, routerIntTableId, setMacPort)
+		lib.DeleteRouterIntEntry(serverAddressPort, routerInterfaceId, routerIntTableId)
 	}
 }

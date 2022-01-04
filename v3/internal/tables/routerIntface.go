@@ -25,8 +25,8 @@ func RouterTableInsert( config *models.L3Config) []*p4.Update{
    }
 
    //portStr := fmt.Sprintf("Ethernet%d",config.EgressPort)
-   portStr := fmt.Sprintf("%d",config.EgressPort)
-   portId := []byte(portStr)
+   //portStr := fmt.Sprintf("%d",config.EgressPort)
+   portId := []byte(*config.EgressPort)
    //binary.BigEndian.PutUint32(portId, config.EgressPort)
    updates := []*p4.Update{
       &p4.Update{
@@ -74,14 +74,12 @@ func RouterTableInsert( config *models.L3Config) []*p4.Update{
 RouterTableDelete: generate the p4.Update struct needed to remove a Router Interface Entry
 */
 func RouterTableDelete( config *models.L3Config) []*p4.Update{
-   routerInterfaceMAC, err := net.ParseMAC(*config.RouterInterfaceMAC)
+   /*routerInterfaceMAC, err := net.ParseMAC(*config.RouterInterfaceMAC)
    if err != nil{
       message := fmt.Sprintf("Failed to parse %s %v",*config.RouterInterfaceMAC,err)
       logging.Error(&message)
-   }
-#portStr := fmt.Sprintf("%d",config.EgressPort)
-   portId := []byte(config.EgressPort)
-//   binary.BigEndian.PutUint32(portId, config.EgressPort)
+   }*/
+   //portId := []byte(*config.EgressPort)
    updates := []*p4.Update{
       &p4.Update{
          Type: p4.Update_DELETE,
@@ -95,23 +93,6 @@ func RouterTableDelete( config *models.L3Config) []*p4.Update{
                         FieldMatchType: &p4.FieldMatch_Exact_{
                            Exact: &p4.FieldMatch_Exact{
                               Value: []byte(*config.RouterInterfaceId),
-                           },
-                        },
-                     },
-                  },
-                  Action: &p4.TableAction{
-                     Type: &p4.TableAction_Action{
-                        Action: &p4.Action{
-                           ActionId: config.SetMacAndPortId,
-                           Params: []*p4.Action_Param{
-                              {
-                                 ParamId: 1,
-                                 Value:   portId,
-                              },
-                              {
-                                 ParamId: 2,
-                                 Value:   routerInterfaceMAC,
-                              },
                            },
                         },
                      },

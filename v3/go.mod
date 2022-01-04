@@ -1,4 +1,4 @@
-module github.com/pins/p4rt-client/v2
+module github.com/pins/p4rt-client/v3
 
 go 1.16
 

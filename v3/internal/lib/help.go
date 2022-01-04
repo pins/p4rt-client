@@ -47,7 +47,20 @@ log.Println(usage)
 func PushP4infoUsage() {
 	usage := `
 Usage:
-./p4rt-client -pushP4info -p4info=$P4_INFO_FILENAME`
+./p4rt-client -pushP4info \
+        -server=$P4RUNTIME_ENDPOINT \
+        -p4info=$P4_INFO_FILENAME 
+
+Fields:
+-server:   string: ip address and listen port of P4Runtime service 
+-p4info:   string: filename of the P4 Info text file.
+
+e.g.
+ p4rt-client --pushP4info \
+             --server=10.128.200.209:9559 \
+             --p4info=./middleblock-p4info.txt
+
+`
 	log.Println(usage)
 }
 
@@ -60,8 +73,8 @@ p4rt-client  -addRouterInt \
         -routerPortId=$ROUTER_PORT_ID \
         -routerIntMAC=$ROUTER_INTF_MAC  \
         -egressPort=$EGRESS_PORT \
-        -routerTable=$ROUTER_TABLE \
-        -setPortMac=$SET_PORT_MAC
+        -routerTable=$ROUTER_TABLE (OPTIONAL) \
+        -setPortMac=$SET_PORT_MAC  (OPTIONAL) 
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
 -routerInterfaceId: string: unique name for virtual interface 
@@ -76,9 +89,9 @@ e.g.
              -routerInterface=intf-eth1   \
              -routerPortId=1000  \
              -routerIntMAC=8c:ea:1b:17:64:0c  \
-             -egressPort=125   \
-             -routerTable=33554497  \
-             -setPortMac=16777218
+             -egressPort=Ethernet0   \
+           [ -routerTable=33554497 ]  \
+           [ -setPortMac=16777218 ]
 `
 	log.Println(usage)
 }
@@ -89,28 +102,19 @@ Usage:
 p4rt-client  -delRouterInt \
         -server=$P4RUNTIME_ENDPOINT \
         -routerInterface=$INTERFACE_NAME \
-        -routerPortId=$ROUTER_PORT_ID \
-        -routerIntMAC=$ROUTER_INTF_MAC  \
-        -egressPort=$EGRESS_PORT \
-        -routerTable=$ROUTER_TABLE \
-        -setPortMac=$SET_PORT_MAC
+        -routerTable=$ROUTER_TABLE (OPTIONAL) \
+        -setPortMac=$SET_PORT_MAC (OPTIONAL)
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
 -routerInterfaceId: string: unique name for virtual interface 
--routerIntPort:     uint32: unique port number to assign to virtual interface
--routerIntMAC:      string: MAC address to use for virtual interface - generally the same as used on all SONiC interfaces
--egressPort:        uint32: port number of physical port to use for egress
 -routerTable:       uint32: table id for ingress.routing.router_interface_table for p4info.txt (OPTIONAL)
 -setPortMac:        uint32: action id associated with ingress.routing.set_port_and_src_mac action in p4info.txt (OPTIONAL)
 e.g.
- p4rt-client -addRouterInt \
+ p4rt-client -delRouterInt \
              -server=10.128.100.209:9559 \
              -routerInterface=intf-eth1   \
-             -routerPortId=1000  \
-             -routerIntMAC=8c:ea:1b:17:64:0c  \
-             -egressPort=125   \
-             -routerTable=33554497  \
-             -setPortMac=16777218
+           [ -routerTable=33554497 ]  \
+           [ -setPortMac=16777218 ]
 `
 	log.Println(usage)
 }
@@ -120,14 +124,14 @@ func AddNeighborUsage(){
 Usage:
 p4rt-client -addNeighbor \
       -server=$P4RUNTIME_ENDPOINT \
-      -neighborIp=$NEIGHBOR_IP \
+      -neighborName=$NEIGHBOR_IP \
       -destMAC=$DEST_MAC \
       -routerInterface=$INTERFACE_NAME \
-      -neighborTable=$NEIGHBOR_TABLE \
-      -setDestMacAction=$SET_DEST_MAC
+      -neighborTable=$NEIGHBOR_TABLE  (OPTIONAL)\
+      -setDestMacAction=$SET_DEST_MAC (OPTIONAL)
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
--neighborIp         string: ip address of adjacent port
+-neighborName         string: ip address of adjacent port
 -destMAC            string: MAC address of adjacent port
 -routerInterface    string: name of virtual interface used to pass traffic to this neighbor
 -neighborTable      uint32: id associated with ingress.routing.neighbor_table from p4info.txt"
@@ -135,11 +139,11 @@ Fields:
 e.g.
 p4rt-client -addNeighbor \
             -server=10.128.100.209:9559 \
-            -neighborIp=192.168.2.2 \
+            -neighborName=192.168.2.2 \
             -routerInterface=intf-eth1 \
             -destMAC=00:07:43:4b:7f:50 \
-            -neighborTable=33554496 \
-            -setDestMacAction=16777217 
+          [ -neighborTable=33554496 ] \
+          [ -setDestMacAction=16777217 ] 
 `
     log.Println(usage)
 }
@@ -148,26 +152,21 @@ func DelNeighborUsage(){
 Usage:
 p4rt-client -delNeighbor \
       -server=$P4RUNTIME_ENDPOINT \
-      -neighborIp=$NEIGHBOR_IP \
-      -destMAC=$DEST_MAC \
       -routerInterface=$INTERFACE_NAME \
-      -neighborTable=$NEIGHBOR_TABLE \
-      -setDestMacAction=$SET_DEST_MAC
+      -neighborName=$NEIGHBOR_IP \
+      -neighborTable=$NEIGHBOR_TABLE  (OPTIONAL)
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
--neighborIp         string: ip address of adjacent port
--destMAC            string: MAC address of adjacent port
 -routerInterface    string: name of virtual interface used to pass traffic to this neighbor
+-neighborName         string: ip address of adjacent port
 -neighborTable      uint32: id associated with ingress.routing.neighbor_table from p4info.txt" (OPTIONAL)
--setDestMacAction   uint32: id associated with ingress.routing.set_dst_mac from p4info.txt (OPTIONAL)
+
 e.g.
 p4rt-client -delNeighbor \
             -server=10.128.100.209:9559 \
-            -neighborIp=192.168.2.2 \
             -routerInterface=intf-eth1 \
-            -destMAC=00:07:43:4b:7f:50 \
-            -neighborTable=33554496 \
-            -setDestMacAction=16777217 
+            -neighborName=192.168.2.2 \
+          [ -neighborTable=33554496 ] 
 `
 	log.Println(usage)
 }
@@ -177,14 +176,14 @@ Usage:
 p4rt-client -addNextHop \
             -server=$P4RUNTIME_ENDPOINT  \
             -routerInterface=$INTERFACE_NAME \
-            -neighborIp=` +"`"+`macToIpV6 $DEST_MAC`+"`"+` \
+            -neighborName=` +"`"+`macToIpV6 $DEST_MAC`+"`"+` \
             -nextHopId=$NEXTHOP_NAME \
-            -nextHopTable=$NEXTHOP_TABLE  \
-            -setNextHopAction=$SET_NEXTHOP_ID
+            -nextHopTable=$NEXTHOP_TABLE   (OPTIONAL)\
+            -setNextHopAction=$SET_NEXTHOP_ID (OPTIONAL)
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
 -routerInterface    string: name of the virtual interface to use
--neighborIp         string: this is the IPv6 link local address of the adjacent port
+-neighborName         string: this is the IPv6 link local address of the adjacent port
        macToIpV6 code is in the utils directory which converts a MAC address to IpV6 link local address
 -nextHopId          string: unique name to identify the neighbor and interface combination
 -nextHopTable       uint32: table id associated with ingress.routing.nexthop_table from p4info.txt
@@ -193,21 +192,20 @@ Fields:
 e.g. Using IPv6 address directly:
 p4rt-client  -addNextHop \
              -server=10.128.100.209:9559 \
-             -nextHopTable=33554498 \
-             -neighborIp=fe80::207:43ff:fe4b:7f50 \
+             -neighborName=fe80::207:43ff:fe4b:7f50 \
+             -routerInterface=intf-eth1 \
              -nextHopId=bcmserver \
-             -setNextHopAction=16777219 \
-             -routerInterface=intf-eth1
+           [ -setNextHopAction=16777219 ] \
+           [ -nextHopTable=33554498 ]
 
 e.g. Using macToIpV6 utility and Destination Mac:
 p4rt-client  -addNextHop \
              -server=10.128.100.209:9559 \
-             -nextHopTable=33554498 \
-             -neighborIp=fe80::207:43ff:fe4b:7f50 \
-             -neighborIp=`+"`"+`macToIpV6 00:07:43:4b:7f:50 `+"`"+` \
+             -neighborName=`+"`"+`macToIpV6 00:07:43:4b:7f:50 `+"`"+` \
+             -routerInterface=intf-eth1 \
              -nextHopId=bcmserver \
-             -setNextHopAction=16777219 \
-             -routerInterface=intf-eth1
+           [ -nextHopTable=33554498 ]\
+           [ -setNextHopAction=16777219 ]
 `
 	log.Println(usage)
 
@@ -217,38 +215,19 @@ func DelNextHopUsage(){
 Usage:
 p4rt-client -delNextHop \
             -server=$P4RUNTIME_ENDPOINT  \
-            -routerInterface=$INTERFACE_NAME \
-            -neighborIp=` +"`"+`macToIpV6 $DEST_MAC`+"`"+` \
             -nextHopId=$NEXTHOP_NAME \
-            -nextHopTable=$NEXTHOP_TABLE  \
-            -setNextHopAction=$SET_NEXTHOP_ID
+            -nextHopTable=$NEXTHOP_TABLE   (OPTIONAL)
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
--routerInterface    string: name of the virtual interface to use
--neighborIp         string: this is the IPv6 link local address of the adjacent port
-       macToIpV6 code is in the utils directory which converts a MAC address to IpV6 link local address
 -nextHopId          string: unique name to identify the neighbor and interface combination
 -nextHopTable       uint32: table id associated with ingress.routing.nexthop_table from p4info.txt
--setNextHopAction   uint32: action id associated with ingress.routing.set_nexthop_id from p4info.txt
 
-e.g. Using IPv6 address directly:
+e.g. :
 p4rt-client  -delNextHop \
              -server=10.128.100.209:9559 \
-             -neighborIp=fe80::207:43ff:fe4b:7f50 \
              -nextHopId=bcmserver \
-             -routerInterface=intf-eth1 \
-             -nextHopTable=33554498 (OPTIONAL)\ 
-             -setNextHopAction=16777219 (OPTIONAL) 
+           [ -nextHopTable=33554498 ] 
 
-e.g. Using macToIpV6 utility and Destination Mac:
-p4rt-client  -delNextHop \
-             -server=10.128.100.209:9559 \
-             -neighborIp=fe80::207:43ff:fe4b:7f50 \
-             -neighborIp=`+"`"+`macToIpV6 00:07:43:4b:7f:50 `+"`"+` \
-             -nextHopId=bcmserver \
-             -routerInterface=intf-eth1 \
-             -nextHopTable=33554498 (OPTIONAL) \
-             -setNextHopAction=16777219 (OPTIONAL)
 `
 	log.Println(usage)
 
@@ -258,15 +237,15 @@ func AddIpV4EntryUsage(){
 Usage:
 p4rt-client  -addIpV4 \
       -server=$P4RUNTIME_ENDPOINT \
-      -vrf=$VRF_ID \
+      -vrf=$VRF_ID (OPTIONAL)\
       -routedNetwork=$ROUTED_NETWORK \
       -nextHopId=$NEXTHOP_NAME \
-      -ipv4table=$IPV4_ROUTE_TABLE \
-      -setNextHop=$SET_NEXTHOP
+      -ipv4table=$IPV4_ROUTE_TABLE  (OPTIONAL)\
+      -setNextHop=$SET_NEXTHOP (OPTIONAL)
 
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
--vrf:               string: name of VRF to use default: vrf-0
+-vrf:               string: name of VRF to use default: vrf-0 can be ommitted for default vrf
 -routedNetwork      string: CIDR of network you are setting up a route for
 -nextHopId          string: name of nextHop the routed packets should be sent to
 -ipvtable           uint32: id associated with ingress.routing.ipv4_table from p4info.txt
@@ -278,8 +257,8 @@ p4rt-client -addIpV4 \
             -vrf=vrf-0 \
             -routedNetwork="172.16.2.0/24" \
             -nextHopId=bcmserver \
-            -ipv4table=33554500 \
-            -setNextHop=16777221 
+          [ -ipv4table=33554500 ]\
+          [ -setNextHop=16777221 ] 
 
 `
 log.Println(usage)
@@ -289,28 +268,22 @@ func DelIpV4EntryUsage(){
 Usage:
 p4rt-client  -delIpV4 \
       -server=$P4RUNTIME_ENDPOINT \
-      -vrf=$VRF_ID \
+      -vrf=$VRF_ID (OPTIONAL) \
       -routedNetwork=$ROUTED_NETWORK \
-      -nextHopId=$NEXTHOP_NAME \
-      -ipv4table=$IPV4_ROUTE_TABLE \
-      -setNextHop=$SET_NEXTHOP
+      -ipv4table=$IPV4_ROUTE_TABLE  (OPTIONAL)
 
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
--vrf:               string: name of VRF to use default: vrf-0
+-vrf:               string: name of VRF to use default: vrf-0, can be ommitted for default vrf
 -routedNetwork      string: CIDR of network you are setting up a route for
--nextHopId          string: name of nextHop the routed packets should be sent to
 -ipvtable           uint32: id associated with ingress.routing.ipv4_table from p4info.txt
--setNextHop         uint32: id associated with action ingress.routing.set_nexthop_id from p4info.txt
 
 e.g.
 p4rt-client -delIpV4 \
             -server=10.128.100.209:9559 \
             -vrf=vrf-0 \
             -routedNetwork="172.16.2.0/24" \
-            -nextHopId=bcmserver \
-            -ipv4table=33554500 (OPTIONAL)\
-            -setNextHop=16777221 (OPTIONAL) 
+          [ -ipv4table=33554500 ]
 
 `
 	log.Println(usage)
@@ -323,8 +296,8 @@ p4rt-client -addActionProfile \
             -server=$P4RUNTIME_ENDPOINT \
             -mpGroupId=$MULTIPATH_GROUP_NAME \ 
             -nextHopWeights=$NEXTHOP_LIST \
-            -aProfileId=$ACTION_PROFILE_TABLE \
-            -setNextHopAction=$SET_NEXTHOP
+            -aProfileId=$ACTION_PROFILE_TABLE  (OPTIONAL)\
+            -setNextHopAction=$SET_NEXTHOP (OPTIONAL)
 
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
@@ -339,8 +312,8 @@ p4rt-client  -addActionProfile \
              -server=10.128.100.209:9559  \
              -mpGroupId=group1 \
              -nextHopWeights=$nexthopList \
-             -aProfileId=33554499 \
-             -setNextHopAction=16777221  
+           [ -aProfileId=33554499 ] \
+           [ -setNextHopAction=16777221 ]
 `
 	log.Println(usage)
 }
@@ -351,25 +324,18 @@ NEXTHOP_LIST=$NEXTHOP_1:$WEIGHT_1,$NEXTHOP_2:$WEIGHT_2, ....
 p4rt-client -delActionProfile \
             -server=$P4RUNTIME_ENDPOINT \
             -mpGroupId=$MULTIPATH_GROUP_NAME \ 
-            -nextHopWeights=$NEXTHOP_LIST \
-            -aProfileId=$ACTION_PROFILE_TABLE (OPTIONAL)\
-            -setNextHopAction=$SET_NEXTHOP (OPTIONAL)
+            -aProfileId=$ACTION_PROFILE_TABLE (OPTIONAL)
 
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
 -mpGroupId          string: label to use for group of NextHops
--nextHopWeights     string: comma separated list of NextHops and weights in the form of NextHop_1:Weight_1,NextHop_2:Weight_2...\
-                    that make up the members of the multipath group
 -aProfileId:        uint32: table id associated with ingress.routing.wcmp_group_table from p4info.txt
--setNextHopAction:  uint32: id associated with action ingress.routing.set_nexthop_id from p4info.txt
+
 e.g.
-nexthopList=bcmInter2:1,bcmInter3:1,bcmInter4:1,bcmInter5:1
 p4rt-client  -delActionProfile \
              -server=10.128.100.209:9559  \
              -mpGroupId=group1 \
-             -nextHopWeights=$nexthopList \
-             -aProfileId=33554499 (OPTIONAL) \
-             -setNextHopAction=16777221 (OPTIONAL)  
+           [ -aProfileId=33554499 ] 
 `
 	log.Println(usage)
 }
@@ -381,8 +347,8 @@ p4rt-client -addIpV4Wcmp \
             -vrf=VRF_ID \
             -routedNetwork=$ROUTED_NETWORK \
             -mpGroupId=$MULTIPATH_GROUP_NAME \
-            -ipv4table=$IPV4_ROUTE_TABLE \
-            -setWcmpId=$SET_WCMP_ACTION
+            -ipv4table=$IPV4_ROUTE_TABLE  (OPTIONAL)\
+            -setWcmpId=$SET_WCMP_ACTION (OPTIONAL)
 
 Fields:
 -server:            string: ip address and listen port of P4Runtime service 
@@ -398,38 +364,8 @@ p4rt-client -addIpV4Wcmp \
             -vrf=vrf-0 \
             -routedNetwork="172.16.1.0/24" \
             -mpGroupId=group1 \
-            -ipv4table=33554500 \
-            -setWcmpId=16777220
-`
-	log.Println(usage)
-}
-func DelIpV4EntryWcmpUsage(){
-	usage:=`
-Usage: 
-p4rt-client -delIpV4Wcmp \
-            -server=$P4RUNTIME_ENDPOINT  \
-            -vrf=VRF_ID \
-            -routedNetwork=$ROUTED_NETWORK \
-            -mpGroupId=$MULTIPATH_GROUP_NAME \
-            -ipv4table=$IPV4_ROUTE_TABLE (OPTIONAL) \
-            -setWcmpId=$SET_WCMP_ACTION (OPTIONAL)
-
-Fields:
--server:            string: ip address and listen port of P4Runtime service 
--vrf:               string: name of VRF to use default: vrf-0
--routedNetwork      string: CIDR of network you are setting up a route for
--mpGroupId          string: name of the multi-path group routed packets should be sent to
--ipvtable           uint32: id associated with ingress.routing.ipv4_table from p4info.txt
--setWcmpId          uint32: id associated with ingress.routing.set_wcmp_group_id
-
-e.g.
-p4rt-client -delIpV4Wcmp \
-            -server=10.128.100.209:9559  \
-            -vrf=vrf-0 \
-            -routedNetwork="172.16.1.0/24" \
-            -mpGroupId=group1 \
-            -ipv4table=33554500 (OPTIONAL)\
-            -setWcmpId=16777220 (OPTIONAL)
+          [ -ipv4table=33554500 ]\
+          [ -setWcmpId=16777220 ]
 `
 	log.Println(usage)
 }
@@ -442,22 +378,22 @@ p4rt-client  -addRouterInt  -addNeighbor -addNextHop -addIpV4 \
              -routerInterface=intf-eth1   \
              -routerPortId=1000  \
              -routerIntMAC=8c:ea:1b:17:64:0c  \
-             -egressPort=125   \
-             -neighborIp=192.168.2.2 \
+             -egressPort=Ethernet0   \
+             -neighborName=192.168.2.2 \
              -routerInterface=intf-eth1 \
              -destMAC=00:07:43:4b:7f:50 \
-             -neighborIp=`+"`"+`macToIpV6 00:07:43:4b:7f:50 `+"`"+` \
+             -neighborName=`+"`"+`macToIpV6 00:07:43:4b:7f:50 `+"`"+` \
              -nextHopId=bcmserver \
              -vrf=vrf-0 \
              -routedNetwork="172.16.2.0/24" \
-             -routerTable=33554497  \
-             -neighborTable=33554496 \
-             -nextHopTable=33554498 \
-             -ipv4table=33554500 \
-             -setPortMac=16777218 \
-             -setDestMacAction=16777217 \
-             -setNextHopAction=16777219 \
-             -setNextHop=16777221 
+           [ -routerTable=33554497 ] \
+           [ -neighborTable=33554496 ]\
+           [ -nextHopTable=33554498 ]\
+           [ -ipv4table=33554500 ]\
+           [ -setPortMac=16777218 ]\
+           [ -setDestMacAction=16777217 ]\
+           [ -setNextHopAction=16777219 ]\
+           [ -setNextHop=16777221 ]
 `
 log.Println(usage)
 
