@@ -7,10 +7,9 @@
 
 package helpUsage
 
-/*func PushP4Usage() {
+func PushP4Usage() {
 	usage := `
 Usage:
 ./p4rt-client -pushP4info -p4info=$P4_INFO_FILENAME`
 	log.Info(usage)
 }
-*/

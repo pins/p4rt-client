@@ -10,8 +10,9 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/onosproject/onos-lib-go/pkg/logging"
 	h "github.com/pins/p4rt-client/internal/helpUsage"
+
+	"github.com/onosproject/onos-lib-go/pkg/logging"
 	"github.com/pins/p4rt-client/pkg/libp4rt"
 )
 
@@ -29,7 +30,7 @@ func main() {
 	}
 	if *help {
 		if *pushP4Info {
-			h.Test()
+			h.PushP4Usage()
 		} else if *addRouterInt {
 			h.AddRouterIntUsage()
 		} else if *delRouterInt {
@@ -67,7 +68,7 @@ func main() {
 		err := libp4rt.PushP4Info(serverAddressPort, p4info)
 		if err != nil {
 			log.Error(err)
-			h.Test()
+			h.PushP4Usage()
 		}
 	}
 	if *addRouterInt {

@@ -47,9 +47,3 @@ p4rt-client -help -advanced
 `
 	log.Info(usage)
 }
-func Test() {
-	usage := `
-Usage:
-./p4rt-client -pushP4info -p4info=$P4_INFO_FILENAME`
-	log.Info(usage)
-}
