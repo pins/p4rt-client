@@ -5,7 +5,7 @@
  *
  */
 
-package lib
+package help
 
 func AddRouterIntUsage() {
 	usage := `

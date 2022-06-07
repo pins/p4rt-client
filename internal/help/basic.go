@@ -1,11 +1,11 @@
 /*
- * Copyright 2020-present Open Networking Foundation
+* Copyright 2020-present Open Networking Foundation
  *
  * SPDX-License-Identifier: Apache-2.0
  *
- */
+*/
 
-package lib
+package help
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
@@ -45,5 +45,11 @@ p4rt-client -h
 To see instructions for multiple Options in a single invocation:
 p4rt-client -help -advanced
 `
+	log.Info(usage)
+}
+func PushP4Usage() {
+	usage := `
+Usage:
+./p4rt-client -pushP4info -p4info=$P4_INFO_FILENAME`
 	log.Info(usage)
 }
