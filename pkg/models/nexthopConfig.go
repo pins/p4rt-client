@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2022-present Intel Corporation All Rights Reserved
  * Copyright 2020-present Open Networking Foundation
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -11,5 +12,5 @@ type NexthopConfig struct {
 	NexthopId         *string
 	SetNexthopId      uint32
 	RouterInterfaceId *string
-	NeighborName        *string
+	NeighborName      *string
 }
