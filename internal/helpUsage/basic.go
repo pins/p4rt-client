@@ -5,7 +5,7 @@
  *
 */
 
-package help
+package helpUsage
 
 import (
 	"github.com/onosproject/onos-lib-go/pkg/logging"
@@ -47,7 +47,7 @@ p4rt-client -help -advanced
 `
 	log.Info(usage)
 }
-func PushP4Usage() {
+func Test() {
 	usage := `
 Usage:
 ./p4rt-client -pushP4info -p4info=$P4_INFO_FILENAME`
